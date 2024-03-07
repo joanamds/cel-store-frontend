@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../context/UserContext';
+import { ProductContext } from '../context/ProductContext';
+import { useNavigate } from 'react-router-dom';
 
 function Homepage() {
   const [products, setProducts] = useState([]);
   const { role } = useContext(UserContext);
+  const { setProduct } = useContext(ProductContext);
+  const navigate = useNavigate();
+
+  const handleEditClick = (product) => {
+    setProduct(product);
+    navigate('/edit-product')
+  };
 
   const getProductsExample = [
     {
@@ -30,9 +39,10 @@ function Homepage() {
             <p> { product.brand }</p>
             <p> {product.model } </p>
             <p> {product.color } </p>
+            <button type="button">Comprar</button>
             {role === 'admin' && (
               <>
-                <button type="button">Editar produto</button>
+                <button type="button" onClick={ () => handleEditClick(product) }>Editar produto</button>
                 <button type="button">Deletar produto</button>
               </>
             )}
